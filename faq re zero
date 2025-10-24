@@ -1,0 +1,44 @@
+import telebot
+from telebot import types  # для указание типов
+
+
+bot = telebot.TeleBot("8212863055:AAFFRa2AHNQ1b36pNBiiECthSzFQlMUcjQc")
+
+
+@bot.message_handler(commands=['start'])
+def start(message):
+    markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+    btn1 = types.KeyboardButton("FAQ")
+    btn2 = types.KeyboardButton("G")
+    markup.add(btn1, btn2)
+    bot.send_message(
+        message.chat.id,
+        text=f"Hello, {message.from_user.first_name}! I am your guide to the world of RE:Zero",
+        reply_markup=markup
+    )
+
+@bot.message_handler(func=lambda message: True)
+def func(message):
+    if message.text == "FAQ":
+        markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+        btn1 = types.KeyboardButton("What is RE:Zero about?")
+        btn2 = types.KeyboardButton("What should I do after finishing anime?")
+        btn3 = types.KeyboardButton("What are IF Routes about?")
+        btn4 = types.KeyboardButton("Where can I read RE:Zero?")
+        markup.add(btn1, btn2)
+        markup.add(btn3, btn4)
+        bot.send_message(message.chat.id, "Okay, let's get started", reply_markup=markup)
+
+    elif message.text == "What is RE:Zero about?":
+        bot.send_message(message.chat.id, "RE:Zero is about a boy named Subaru who suddenly finds himself in a fantasy world and discovers that every time he dies, he returns to a previous point in time with all his memories intact. Using this power, he struggles to save the people he cares about and uncover the mysteries of a world where death is only the start of another loop.")
+
+    elif message.text == "What should I do after finishing anime?":
+        bot.send_message(message.chat.id, "After finishing the anime, you should start reading the light novel from **Volume 5**, since the anime covers the story up to the end of Volume 4. The light novel continues the main plot and reveals many important details that were not shown in the adaptation.")
+
+    elif message.text == "What are IF Routes about?":
+        bot.send_message(message.chat.id,"IF Routes are special “what if” stories in the RE:Zero universe that explore how events would unfold if Subaru made different choices. Each route shows an alternate version of his life and relationships, often with very different outcomes and tones compared to the main story.")
+
+    elif message.text == "Where can I read RE:Zero?":
+        bot.send_message(message.chat.id,"You can learn more about RE:Zero by visiting **Witch Cult Translations**, a fan translation site that provides English versions of the web novel, side stories, and IF Routes. It’s one of the most complete sources for RE:Zero content beyond the anime.")
+
+bot.polling(none_stop=True)
